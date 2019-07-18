@@ -3,6 +3,7 @@ FROM golang:1.12 as build
 ENV GO111MODULE=on
 
 RUN CGO_ENABLED=0 go get github.com/restic/restic/cmd/restic@v0.9.5
+RUN strip /go/bin/restic
 
 
 FROM gcr.io/distroless/static

@@ -27,7 +27,7 @@ filename="/$database.psql"
 
 backup() {
   pg_dump --host="$host" --username="$username" --create "$database" | \
-    restic --option=s3.storage-class=INTELLIGENT_TIERING backup \
+    restic --no-cache --option=s3.storage-class=INTELLIGENT_TIERING backup \
     --host="$fqdn" --stdin --stdin-filename="$filename"
 }
 
@@ -37,12 +37,12 @@ SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '$databas
 DROP DATABASE $database;
 EOF
 
-  restic dump "$snapshot" "$filename" | \
+  restic --no-cache dump "$snapshot" "$filename" | \
     psql --host="$host" --username="$username"
 }
 
 latest() {
-  restic snapshots --host="$fqdn" --path="$filename" --json | jq -r '.[-1]|.id'
+  restic --no-cache snapshots --host="$fqdn" --path="$filename" --json | jq -r '.[-1]|.id'
 }
 
 case $action in

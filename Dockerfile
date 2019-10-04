@@ -6,7 +6,7 @@ RUN CGO_ENABLED=0 go get github.com/restic/restic/cmd/restic@v0.9.5
 RUN strip /go/bin/restic
 
 
-FROM bitnami/postgresql:11.5.0-debian-9-r1
+FROM bitnami/postgresql:11.5.0-debian-9-r34
 
 USER root
 RUN install_packages jq
